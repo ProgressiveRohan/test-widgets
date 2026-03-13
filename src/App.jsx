@@ -41,6 +41,8 @@ const App = () => {
   return (
     <main className="overflow-hidden">
       <Header />
+      {/* The Nutshell Widget Container */}
+      <div id="nutshell-boot-384344"></div>
       <Hero />
       <Features />
       <Pricing />
@@ -48,8 +50,6 @@ const App = () => {
       <Testimonials />
       <Download />
       
-      {/* The Nutshell Widget Container */}
-      <div id="nutshell-boot-384344"></div>
       
       <Footer />
     </main>
