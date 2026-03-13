@@ -11,25 +11,31 @@ import Footer from "./sections/Footer.jsx";
 
 const App = () => {
   useEffect(() => {
-    // 1. Check if the script already exists to avoid duplicates
-    if (!document.getElementById('front-chat-script')) {
-      const script = document.createElement('script');
-      script.id = 'front-chat-script';
-      script.src = 'https://chat-assets.frontapp.com/v1/chat.bundle.js';
-      script.async = true;
-      
-      script.onload = () => {
-        // 2. Initialize once the script is loaded
-        if (window.FrontChat) {
-          window.FrontChat('init', {
-            chatId: '3b6aff8c2e63a079928577feb604dcd4',
-            useDefaultLauncher: true
-          });
-        }
-      };
+    // 1. Initialize the Nutsheller global function
+    window.Nutsheller = window.Nutsheller || function() {
+      (window.Nutsheller.q = window.Nutsheller.q || []).push(arguments);
+    };
 
-      document.body.appendChild(script);
-    }
+    // 2. Boot the instance with your specific credentials
+    window.Nutsheller('boot', {
+      instance: '384344',
+      authToken: 'c41c3dn0IyYK2fP4FD6k1_K6TqHTMgsxtxciRxzrRBI.2',
+      target: 'nutshell-boot-384344'
+    });
+
+    // 3. Create and inject the external module script
+    const script = document.createElement('script');
+    script.type = 'module';
+    script.src = 'https://growth.watobu.com/nutsheller-esm.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    // Cleanup function to remove script if the component unmounts
+    return () => {
+      if (document.body.contains(script)) {
+        document.body.removeChild(script);
+      }
+    };
   }, []);
 
   return (
@@ -41,6 +47,10 @@ const App = () => {
       <Faq />
       <Testimonials />
       <Download />
+      
+      {/* The Nutshell Widget Container */}
+      <div id="nutshell-boot-384344"></div>
+      
       <Footer />
     </main>
   );
